@@ -1,30 +1,26 @@
-import { Component } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../context/context';
 import './search-panel.css';
 
-class SearchPanel extends Component {
-constructor(props) {
-  super(props)
-  this.state= {
-    term:''
-  }
-}
-updateTermHandler=(e)=> {
-  const term=e.target.value.toLowerCase()
-this.setState({term})
-this.props.updateTermHandler(term)
-}
-  render() {
-      return (
-   <input type="text" className="form-control search-input" placeholder="Kinolarni qidirish" onChange={this.updateTermHandler} value={this.state.term}/>
-  )
-  }
+const SearchPanel = () => {
+    const [term, setTerm] = useState('');
+    const { dispatch } = useContext(Context);
+
+    const updateTermHandler = e => {
+        const term = e.target.value.toLowerCase();
+        setTerm(term);
+        dispatch({ type: 'ON_TERM', payload: term });
+    };
+
+    return (
+        <input
+            type='text'
+            className='form-control search-input'
+            placeholder="Kinolarni qidirish"
+            onChange={updateTermHandler}
+            value={term}
+        />
+    );
 }
 
-
-// const SearchPanel = () => {
-//   return (
-//    <input type="text" className="form-control search-input" placeholder="Kinolarni qidirish" />
-//   )
-// }
-
-export default SearchPanel
+export default SearchPanel;
